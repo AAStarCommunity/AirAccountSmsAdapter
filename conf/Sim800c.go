@@ -10,5 +10,5 @@ func GetSim800c() (string, int) {
 		baud = Get().Sim800C.Baud
 	}
 
-	return host, baud
+	return port, baud
 }
