@@ -47,7 +47,7 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 			return log.Error(err)
 		} else {
 			log.Info("bind:" + resp.Status)
-			go SendMessage(chip, from, "bind successful")
+			go SendMessage(chip, from, "Congratulations! Your AirAccount Created!")
 		}
 	} else if strings.EqualFold(rawMsg, QueryBalance) {
 		from = strings.TrimPrefix(from, "+")
@@ -58,7 +58,7 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 			if data, err := io.ReadAll(resp.Body); err == nil {
 				b := Qb{}
 				json.Unmarshal(data, &b)
-				go SendMessage(chip, from, fmt.Sprintf("balance: %s", b.Data.Balance))
+				go SendMessage(chip, from, fmt.Sprintf("Your balance is %s eth", b.Data.Balance))
 			}
 		}
 	} else {

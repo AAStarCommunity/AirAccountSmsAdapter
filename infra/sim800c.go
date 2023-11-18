@@ -103,7 +103,7 @@ func (s *Sim800c) Read2() {
 			b = append(b, _b[:_n]...)
 		}
 
-		time.Sleep(time.Second)
+		time.Sleep(2 * time.Second)
 		if bytes.HasPrefix(b, []byte("\r\n")) && bytes.HasSuffix(b, []byte("\r\n")) {
 			if bytes.Contains(b, []byte("\r\n\r\n")) {
 				__b := bytes.Trim(b, "\r\n")
@@ -171,7 +171,7 @@ func (s *Sim800c) Write(b []byte) error {
 		return err
 	}
 	log.Info("Send Bytes", toto.V{"bytes": string(b[:]), "length": n})
-	time.Sleep(time.Millisecond * 200)
+	time.Sleep(time.Second)
 	return nil
 }
 
