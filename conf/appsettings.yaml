@@ -1,2 +1,5 @@
 aircenter:
   host: http://localhost:8000 #指令钱包服务地址
+sim800c:
+  port: /dev/cu.SLAB_USBtoUART
+  baud: 9600

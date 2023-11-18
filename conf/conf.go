@@ -12,6 +12,10 @@ type Conf struct {
 	AirCenter struct {
 		Host string
 	}
+	Sim800C struct {
+		Port string
+		Baud int
+	}
 }
 
 var conf *Conf
