@@ -47,6 +47,7 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 			return log.Error(err)
 		} else {
 			log.Info("bind:" + resp.Status)
+			go SendMessage(chip, from, "bind successful")
 		}
 	} else if strings.EqualFold(rawMsg, QueryBalance) {
 		from = strings.TrimPrefix(from, "+")
@@ -57,6 +58,7 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 			if data, err := io.ReadAll(resp.Body); err == nil {
 				b := Qb{}
 				json.Unmarshal(data, &b)
+				go SendMessage(chip, from, fmt.Sprintf("balance: %s", b.Data.Balance))
 			}
 		}
 	} else {
@@ -80,6 +82,7 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 				b := struct {
 					Op string `json:"op"`
 				}{}
+				go SendMessage(chip, from, "transfer accepted")
 				go CheckTransfer(chip, from, b.Op)
 			}
 		} else {
@@ -102,6 +105,7 @@ func CheckTransfer(chip *Sim800c, from string, op string) {
 			log.Info("transfer check result:" + resp.Status)
 
 			if resp.StatusCode == 200 {
+				go SendMessage(chip, from, "transfer successful")
 				return
 			}
 		}
