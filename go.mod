@@ -5,11 +5,13 @@ go 1.20
 require (
 	github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07
 	github.com/totoval/framework v0.11.7
+	go.bug.st/serial v1.6.1
 	k8s.io/apimachinery v0.28.4
 )
 
 require (
 	github.com/certifi/gocertifi v0.0.0-20180905225744-ee1a9a0726d2 // indirect
+	github.com/creack/goselect v0.1.2 // indirect
 	github.com/fsnotify/fsnotify v1.4.7 // indirect
 	github.com/getsentry/raven-go v0.2.0 // indirect
 	github.com/gin-contrib/sentry v0.0.0-20190528141903-48a399dfd39f // indirect

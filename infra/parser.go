@@ -63,6 +63,7 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 		}
 	} else {
 		re := regexp.MustCompile(TransferTo)
+		rawMsg = strings.ToLower(rawMsg)
 		if matches := re.FindStringSubmatch(rawMsg); len(matches) == 3 {
 			value := matches[1]
 			receiver := matches[2]
