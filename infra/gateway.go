@@ -17,6 +17,11 @@ func New(chip *Sim800c) *Gateway {
 		chip: chip,
 	}
 }
+
+func (gw *Gateway) PollUnreadMessages() {
+
+}
+
 func (gw *Gateway) Listen() {
 
 	go func() {
@@ -25,7 +30,7 @@ func (gw *Gateway) Listen() {
 		}
 	}()
 
-	go gw.chip.Write([]byte("AT+CMGL=\"ALL\"\r\n"))
+	go gw.chip.Write([]byte("AT+CMGL=\"REC UNREAD\"\r\n"))
 
 	for {
 		select {
