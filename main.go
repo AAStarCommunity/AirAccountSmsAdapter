@@ -14,7 +14,8 @@ func main() {
 	if c, err := infra.NewSim800c(port, baud, 5*zone.Second); err == nil {
 		gw := infra.New(c)
 
-		gw.Listen()
+		//gw.Listen()
+		gw.PollUnreadMessages()
 	}
 }
 

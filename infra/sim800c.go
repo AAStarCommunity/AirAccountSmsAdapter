@@ -75,7 +75,7 @@ func (s *Sim800c) Read() {
 
 	var b []byte
 	for {
-		_b := make([]byte, 128)
+		_b := make([]byte, 512)
 
 		_n, err := s.read(_b)
 		if err != nil {
