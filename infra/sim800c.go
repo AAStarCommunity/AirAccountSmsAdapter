@@ -3,14 +3,18 @@ package infra
 import (
 	"bytes"
 	"fmt"
+	"io"
+	"regexp"
+	"strings"
+	"time"
+
 	"github.com/tarm/serial"
 	"github.com/totoval/framework/helpers/log"
 	"github.com/totoval/framework/helpers/toto"
 	"github.com/totoval/framework/helpers/zone"
-	"io"
-	"strings"
-	"time"
 )
+
+const REGEXP_CMGL = `\+CMGL: ([0-9]+),".*?","(\+[0-9]+)",".*?",".*?"`
 
 type Sim800c struct {
 	writer    *serial.Port
@@ -75,6 +79,7 @@ func (s *Sim800c) Read() {
 	}()
 
 	var b []byte
+	re := regexp.MustCompile(REGEXP_CMGL)
 	for {
 		_b := make([]byte, 512)
 
@@ -111,7 +116,13 @@ func (s *Sim800c) Read() {
 			msgArr := bytes.Split(__b, []byte("\r\n")) // [][data]
 			line := 1
 			for _, msg := range msgArr {
-				log.Info(fmt.Sprintf("%d: %s", line, string(msg)))
+				str := string(msg)
+				matches := re.FindStringSubmatch(str)
+				if len(matches) > 2 {
+					from := matches[2]
+					text := msgArr[line]
+					log.Info(fmt.Sprintf("%s: %s", from, text))
+				}
 				line++
 			}
 			b = make([]byte, 512)
