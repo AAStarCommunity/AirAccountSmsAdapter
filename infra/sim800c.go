@@ -122,6 +122,8 @@ func (s *Sim800c) Read() {
 					from := matches[2]
 					text := msgArr[line]
 					log.Info(fmt.Sprintf("%s: %s", from, text))
+					msg = []byte(fmt.Sprintf("%s<br />%s", from, text))
+					s.chB <- msg
 				}
 				line++
 			}
