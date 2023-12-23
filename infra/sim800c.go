@@ -103,7 +103,9 @@ func (s *Sim800c) Read() {
 			b = append(b, _b[:_n]...)
 		}
 
-		log.Info("[recv]" + string(b))
+		if bytes.HasSuffix(b, []byte("\r\n")) {
+			log.Info("[recv]" + string(b))
+		}
 
 		time.Sleep(2 * time.Second)
 		if bytes.HasPrefix(b, []byte("\r\n")) && bytes.HasSuffix(b, []byte("\r\n")) {
