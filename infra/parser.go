@@ -18,6 +18,7 @@ type Qb struct {
 	Message string `json:"message"`
 	Data    struct {
 		Balance string `json:"balance"`
+		Unit    string `json:"unit"`
 		Status  int    `json:"status"`
 	} `json:"data"`
 	Cost string `json:"cost"`
@@ -58,7 +59,7 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 			if data, err := io.ReadAll(resp.Body); err == nil {
 				b := Qb{}
 				json.Unmarshal(data, &b)
-				go SendMessage(chip, from, fmt.Sprintf("Your balance is %s eth", b.Data.Balance))
+				go SendMessage(chip, from, fmt.Sprintf("Your balance is %s %s", b.Data.Balance, b.Data.Unit))
 			}
 		}
 	} else {
