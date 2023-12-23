@@ -26,8 +26,8 @@ func (gw *Gateway) PollUnreadMessages() {
 	}()
 
 	for {
-		go gw.chip.Write([]byte("AT+CMGL=\"REC UNREAD\"\r\n"))
-		time.Sleep(time.Second)
+		gw.chip.Write([]byte("AT+CMGL=\"REC UNREAD\"\r\n"))
+		time.Sleep(5 * time.Second)
 	}
 }
 
