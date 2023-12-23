@@ -30,7 +30,7 @@ func (gw *Gateway) Listen() {
 		}
 	}()
 
-	go gw.chip.Write([]byte("AT+CMGL=\"REC UNREAD\"\r\n"))
+	go gw.chip.Write([]byte("AT+CMGL=\"REC READ\"\r\n"))
 
 	for {
 		select {
