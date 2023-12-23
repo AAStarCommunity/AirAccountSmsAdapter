@@ -108,10 +108,10 @@ func (s *Sim800c) Read() {
 		if bytes.HasSuffix([]byte(strings.TrimRight(string(b), "\r\n")), []byte("OK")) {
 			//log.Info("\r\n{[recv]" + strings.Trim(string(b), "\r\n}==="))
 			__b := bytes.Trim(b, "\r\n")
-			msgArr := bytes.Split(__b, []byte("\r\n\r\n")) // [][data]
+			msgArr := bytes.Split(__b, []byte("\r\n")) // [][data]
 			line := 1
 			for _, msg := range msgArr {
-				log.Info(fmt.Sprintf("%d: %s", line, string(msg)))
+				log.Debug(fmt.Sprintf("%d: %s", line, string(msg)))
 				line++
 			}
 			b = make([]byte, 512)
