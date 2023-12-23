@@ -25,7 +25,7 @@ func (gw *Gateway) Listen() {
 		}
 	}()
 
-	go gw.chip.Write([]byte("AT+CSQ\r\n"))
+	go gw.chip.Write([]byte("AT+CMGL=\"ALL\"\r\n"))
 
 	for {
 		select {
