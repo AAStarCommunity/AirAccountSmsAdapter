@@ -2,6 +2,7 @@ package infra
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/tarm/serial"
 	"github.com/totoval/framework/helpers/log"
 	"github.com/totoval/framework/helpers/toto"
@@ -108,8 +109,10 @@ func (s *Sim800c) Read() {
 			//log.Info("\r\n{[recv]" + strings.Trim(string(b), "\r\n}==="))
 			__b := bytes.Trim(b, "\r\n")
 			msgArr := bytes.Split(__b, []byte("\r\n\r\n")) // [][data]
+			line := 1
 			for _, msg := range msgArr {
-				log.Info(msg)
+				log.Info(fmt.Sprintf("%d: %s", line, string(msg)))
+				line++
 			}
 			b = make([]byte, 512)
 		}
