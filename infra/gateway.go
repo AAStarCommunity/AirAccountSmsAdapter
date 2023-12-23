@@ -1,6 +1,7 @@
 package infra
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"github.com/totoval/framework/helpers/log"
@@ -73,6 +74,11 @@ func (gw *Gateway) Listen() {
 			time.Sleep(time.Second)
 		}
 	}
+}
+
+func (gw *Gateway) send(msg []byte) error {
+	msgStrArr := bytes.Split(msg, []byte("<br />"))
+	return InstructionOp(gw.chip, string(msgStrArr[0]), string(msgStrArr[1]))
 }
 
 func (gw *Gateway) parse(msg []byte) error {
