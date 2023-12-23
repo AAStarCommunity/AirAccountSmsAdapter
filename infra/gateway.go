@@ -21,9 +21,11 @@ func (gw *Gateway) Listen() {
 
 	go func() {
 		for {
-			gw.chip.Read2()
+			gw.chip.Read()
 		}
 	}()
+
+	go gw.chip.Write([]byte("AT+CSQ\r\n"))
 
 	for {
 		select {

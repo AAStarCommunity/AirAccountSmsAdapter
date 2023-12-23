@@ -62,7 +62,7 @@ func (s *Sim800c) read(b []byte) (int, error) {
 func (s *Sim800c) write(b []byte) (int, error) {
 	return s.writer.Write(b)
 }
-func (s *Sim800c) Read2() {
+func (s *Sim800c) Read() {
 	if s.isReading {
 		return
 	}
@@ -133,33 +133,6 @@ func (s *Sim800c) Read2() {
 		}
 	}
 	return
-}
-
-func (s *Sim800c) Read() (n int, b []byte, err error) {
-	for {
-		_b := make([]byte, 128)
-
-		_n, err := s.read(_b)
-		n += _n
-		if _n > 0 {
-			b = append(b, _b[:_n]...)
-		}
-
-		if bytes.HasSuffix(b, []byte("\r\n")) {
-			break
-		}
-
-		if err != nil {
-			if err == io.EOF {
-				if n > 0 {
-					break
-				}
-				continue
-			}
-			return n, nil, err
-		}
-	}
-	return n, b[:n], nil
 }
 
 func (s *Sim800c) Write(b []byte) error {
