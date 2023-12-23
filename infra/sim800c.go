@@ -7,6 +7,7 @@ import (
 	"github.com/totoval/framework/helpers/toto"
 	"github.com/totoval/framework/helpers/zone"
 	"io"
+	"strings"
 	"time"
 )
 
@@ -104,7 +105,7 @@ func (s *Sim800c) Read() {
 		}
 
 		if bytes.HasSuffix(b, []byte("\r\n")) {
-			log.Info("[recv]" + string(b))
+			log.Info("[recv]" + strings.Trim(string(b), "\r\n"))
 		}
 
 		time.Sleep(2 * time.Second)
