@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/totoval/framework/helpers/log"
-	"github.com/totoval/framework/helpers/toto"
 	"time"
 )
 
@@ -30,22 +29,22 @@ func (gw *Gateway) Listen() {
 		}
 	}()
 
-	go gw.chip.Write([]byte("AT+CMGL=\"REC READ\"\r\n"))
+	go gw.chip.Write([]byte("AT+CMGL=\"ALL\"\r\n"))
 
 	for {
-		select {
-		case b := <-gw.chip.Bytes():
-			log.Info("Incoming data", toto.V{"data": string(b[:])})
-			err := log.Error(gw.parse(b))
-			if err != nil {
-				go log.Debug(fmt.Sprintf("error: %s | %s", err.Error(), string(b[:])))
-			}
-		case err := <-gw.chip.Error():
-			log.Panic(err)
-		default:
-			time.Sleep(time.Second)
-		}
-
+		time.Sleep(time.Second)
+		//select {
+		//case b := <-gw.chip.Bytes():
+		//	log.Info("Incoming data", toto.V{"data": string(b[:])})
+		//	err := log.Error(gw.parse(b))
+		//	if err != nil {
+		//		go log.Debug(fmt.Sprintf("error: %s | %s", err.Error(), string(b[:])))
+		//	}
+		//case err := <-gw.chip.Error():
+		//	log.Panic(err)
+		//default:
+		//	time.Sleep(time.Second)
+		//}
 	}
 }
 
