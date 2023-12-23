@@ -111,7 +111,7 @@ func (s *Sim800c) Read() {
 			msgArr := bytes.Split(__b, []byte("\r\n")) // [][data]
 			line := 1
 			for _, msg := range msgArr {
-				log.Debug(fmt.Sprintf("%d: %s", line, string(msg)))
+				log.Info(fmt.Sprintf("%d: %s", line, string(msg)))
 				line++
 			}
 			b = make([]byte, 512)
