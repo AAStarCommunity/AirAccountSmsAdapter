@@ -1,6 +1,7 @@
 package infra
 
 import (
+	"AirAccountSmsAdapter/loglite"
 	"bytes"
 	"errors"
 	"fmt"
@@ -32,7 +33,8 @@ func (gw *Gateway) PollUnreadMessages() {
 			time.Sleep(time.Second)
 			select {
 			case b := <-gw.chip.Bytes():
-				log.Info("Incoming data", toto.V{"data": string(b[:])})
+				recv := string(b[:])
+				loglite.LogInfo("recv msg: ", &recv)
 				err := gw.send(b)
 				if err != nil {
 					go log.Debug(fmt.Sprintf("error: %s | %s", err.Error(), string(b[:])))

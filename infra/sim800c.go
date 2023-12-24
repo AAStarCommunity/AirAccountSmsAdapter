@@ -1,6 +1,7 @@
 package infra
 
 import (
+	"AirAccountSmsAdapter/loglite"
 	"bytes"
 	"fmt"
 	"io"
@@ -10,7 +11,6 @@ import (
 
 	"github.com/tarm/serial"
 	"github.com/totoval/framework/helpers/log"
-	"github.com/totoval/framework/helpers/toto"
 	"github.com/totoval/framework/helpers/zone"
 )
 
@@ -166,11 +166,12 @@ func (s *Sim800c) Write(b []byte) error {
 	if err := s.flush(); err != nil {
 		return err
 	}
-	n, err := s.write(b)
+	_, err := s.write(b)
 	if err != nil {
 		return err
 	}
-	log.Info("Send Bytes", toto.V{"bytes": string(b[:]), "length": n})
+	msg := string(b[:])
+	loglite.LogInfo("send msg: ", &msg)
 	time.Sleep(time.Second)
 	return nil
 }
