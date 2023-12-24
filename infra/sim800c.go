@@ -4,13 +4,13 @@ import (
 	"AirAccountSmsAdapter/loglite"
 	"bytes"
 	"fmt"
+	"github.com/totoval/framework/helpers/log"
 	"io"
 	"regexp"
 	"strings"
 	"time"
 
 	"github.com/tarm/serial"
-	"github.com/totoval/framework/helpers/log"
 	"github.com/totoval/framework/helpers/zone"
 )
 
@@ -111,7 +111,7 @@ func (s *Sim800c) Read() {
 		}
 
 		if bytes.HasSuffix([]byte(strings.TrimRight(string(b), "\r\n")), []byte("OK")) {
-			//log.Info("\r\n{[recv]" + strings.Trim(string(b), "\r\n}==="))
+			log.Info(fmt.Sprintf("%s", string(b)))
 			__b := bytes.Trim(b, "\r\n")
 			msgArr := bytes.Split(__b, []byte("\r\n")) // [][data]
 			line := 1
@@ -121,7 +121,6 @@ func (s *Sim800c) Read() {
 				if len(matches) > 2 {
 					from := matches[2]
 					text := msgArr[line]
-					log.Info(fmt.Sprintf("%s: %s", from, text))
 					msg = []byte(fmt.Sprintf("%s<br />%s", from, text))
 					s.chB <- msg
 				}
@@ -131,33 +130,6 @@ func (s *Sim800c) Read() {
 		}
 
 		time.Sleep(2 * time.Second)
-		//if bytes.HasPrefix(b, []byte("\r\n")) && bytes.HasSuffix(b, []byte("\r\n")) {
-		//	if bytes.Contains(b, []byte("\r\n\r\n")) {
-		//		__b := bytes.Trim(b, "\r\n")
-		//		msgArr := bytes.Split(__b, []byte("\r\n\r\n")) // [][data]
-		//		log.Warn(len(msgArr))
-		//		for _, msg := range msgArr {
-		//			log.Warn(msg)
-		//			s.chB <- msg
-		//		}
-		//	} else {
-		//		// single msg bytes
-		//		__b := bytes.Trim(b, "\r\n") // data
-		//		s.chB <- __b
-		//	}
-		//
-		//	break // msg end
-		//} else if bytes.HasPrefix(b, []byte("AT+CMGR=")) && bytes.Contains(b, []byte("\r\n")) {
-		//	bytes.Split(b, []byte("\r\n"))
-		//	msgArr := bytes.Split(b, []byte("\r\n")) // [][data]
-		//	for idx, msg := range msgArr {
-		//		if bytes.HasPrefix(msg, []byte("+CMGR:")) {
-		//			msg = []byte(string(msg) + "<br />" + string(msgArr[idx+1]))
-		//			s.chB <- msg
-		//		}
-		//	}
-		//	break
-		//}
 	}
 	return
 }
