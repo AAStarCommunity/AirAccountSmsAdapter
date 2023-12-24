@@ -16,17 +16,19 @@ import (
 const REGEXP_CMGL = `\+CMGL: ([0-9]+),".*?","(\+[0-9]+)",".*?",".*?"`
 
 type Sim800c struct {
-	writer    *serial.Port
-	conf      *serial.Config
-	chB       chan []byte
-	chErr     chan error
-	isReading bool
+	writer       *serial.Port
+	conf         *serial.Config
+	chB          chan []byte
+	chErr        chan error
+	isReading    bool
+	SmsThreshold int
 }
 
-func NewSim800c(comPort string, baudRate int, readTimeout zone.Duration) (*Sim800c, error) {
+func NewSim800c(comPort string, baudRate int, readTimeout zone.Duration, smsThreshold int) (*Sim800c, error) {
 	s := &Sim800c{
-		chB:   make(chan []byte, 50*3), // "+CPMS: \"SM_P\",50,50,\"SM_P\",50,50,\"SM_P\",50,50"
-		chErr: make(chan error, 50*3),
+		chB:          make(chan []byte, 50*3), // "+CPMS: \"SM_P\",50,50,\"SM_P\",50,50,\"SM_P\",50,50"
+		chErr:        make(chan error, 50*3),
+		SmsThreshold: smsThreshold,
 	}
 	s.conf = &serial.Config{Name: comPort, Baud: baudRate, ReadTimeout: readTimeout}
 

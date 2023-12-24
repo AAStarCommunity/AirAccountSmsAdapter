@@ -13,8 +13,9 @@ type Conf struct {
 		Host string
 	}
 	Sim800C struct {
-		Port string
-		Baud int
+		Port         string
+		Baud         int
+		SmsThreshold int `json:"sms_threshold"` // 短信存储阈值
 	}
 }
 

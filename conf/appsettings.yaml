@@ -1,5 +1,6 @@
 aircenter:
-  host: https://aagateway.onrender.com #指令钱包服务地址
+  host: https://<GatewayHost> #指令钱包服务地址
 sim800c:
   port: /dev/ttyS0 # raspberry pi
   baud: 9600
+  sms_threshold: 25 # sms清空短信阈值

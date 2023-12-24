@@ -12,8 +12,8 @@ func main() {
 	getSerialComlist()
 	outputEnv()
 
-	port, baud := conf.GetSim800c()
-	if c, err := infra.NewSim800c(port, baud, 5*zone.Second); err == nil {
+	port, baud, threshold := conf.GetSim800c()
+	if c, err := infra.NewSim800c(port, baud, 5*zone.Second, threshold); err == nil {
 		gw := infra.New(c)
 
 		//gw.Listen()
@@ -32,6 +32,6 @@ func getSerialComlist() {
 
 func outputEnv() {
 	fmt.Printf("airaccount host: %s\r\n", conf.GetAirCenterHost())
-	a, b := conf.GetSim800c()
-	fmt.Printf("serial com: %s %d\n", a, b)
+	a, b, c := conf.GetSim800c()
+	fmt.Printf("serial com: %s %d, sms threshold %d\n", a, b, c)
 }

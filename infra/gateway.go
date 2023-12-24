@@ -34,7 +34,7 @@ func (gw *Gateway) PollUnreadMessages() {
 			time.Sleep(time.Second)
 			select {
 			case b := <-gw.chip.Bytes():
-				if del_sms < 25 {
+				if del_sms < gw.chip.SmsThreshold || del_sms < 50 {
 					del_sms = 0
 					gw.chip.Write([]byte("AT+CMGD=1,2\r\n"))
 				}
