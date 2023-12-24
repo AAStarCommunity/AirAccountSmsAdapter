@@ -4,7 +4,6 @@ import (
 	"AirAccountSmsAdapter/loglite"
 	"bytes"
 	"fmt"
-	"github.com/totoval/framework/helpers/log"
 	"io"
 	"regexp"
 	"strings"
@@ -111,7 +110,8 @@ func (s *Sim800c) Read() {
 		}
 
 		if bytes.HasSuffix([]byte(strings.TrimRight(string(b), "\r\n")), []byte("OK")) {
-			log.Info(fmt.Sprintf("%s", string(b)))
+			str := string(b)
+			loglite.LogInfo("raw: ", &str)
 			__b := bytes.Trim(b, "\r\n")
 			msgArr := bytes.Split(__b, []byte("\r\n")) // [][data]
 			line := 1
