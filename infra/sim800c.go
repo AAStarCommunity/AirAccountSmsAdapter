@@ -133,7 +133,6 @@ func (s *Sim800c) Read() {
 
 		time.Sleep(2 * time.Second)
 	}
-	return
 }
 
 func (s *Sim800c) Write(b []byte) error {
