@@ -1,7 +1,6 @@
 package infra
 
 import (
-	"AirAccountSmsAdapter/loglite"
 	"bytes"
 	"fmt"
 	"github.com/totoval/framework/helpers/log"
@@ -143,8 +142,7 @@ func (s *Sim800c) Write(b []byte) error {
 	if err != nil {
 		return err
 	}
-	msg := string(b[:])
-	loglite.LogInfo("send msg: ", &msg)
+	log.Info("send msg: " + string(b[:]))
 	time.Sleep(time.Second)
 	return nil
 }
