@@ -29,16 +29,16 @@ func (gw *Gateway) PollUnreadMessages() {
 	}()
 
 	go func() {
-		del_sms := 0
+		delSms := 0
 		for {
 			time.Sleep(time.Second)
 			select {
 			case b := <-gw.chip.Bytes():
-				if del_sms < gw.chip.SmsThreshold || del_sms < 50 {
-					del_sms = 0
+				if delSms < gw.chip.SmsThreshold || delSms < 50 {
+					delSms = 0
 					gw.chip.Write([]byte("AT+CMGD=1,2\r\n"))
 				}
-				del_sms++
+				delSms++
 				recv := string(b[:])
 				loglite.LogInfo("recv msg: ", &recv)
 				err := gw.send(b)

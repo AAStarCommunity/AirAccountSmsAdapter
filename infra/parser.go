@@ -41,9 +41,9 @@ func Retrieve(chip *Sim800c, smsIndex uint) error {
 // InstructionOp 指令操作
 func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 	cfg := conf.GetAirCenterHost()
+	from = strings.TrimPrefix(from, "+")
 	// bind: C
 	if strings.EqualFold(rawMsg, BindWallet) {
-		from = strings.TrimPrefix(from, "+")
 		if resp, err := http.Post(cfg+"/api/instructions/bind?id="+from, "application/json", bytes.NewBuffer([]byte("{}"))); err != nil {
 			return log.Error(err)
 		} else {
@@ -51,7 +51,6 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 			go SendMessage(chip, from, "Congratulations! Your AirAccount Created!")
 		}
 	} else if strings.EqualFold(rawMsg, QueryBalance) {
-		from = strings.TrimPrefix(from, "+")
 		if resp, err := http.Get(cfg + "/api/instructions/balance?id=" + from); err != nil {
 			return log.Error(err)
 		} else {
