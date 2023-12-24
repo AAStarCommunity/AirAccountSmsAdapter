@@ -5,3 +5,6 @@ vendor
 
 log.db
 conf/appsettings.yaml
+
+smsadapter
+nohup.out
