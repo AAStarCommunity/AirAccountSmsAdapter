@@ -110,7 +110,7 @@ func CheckTransfer(chip *Sim800c, from string, op string) {
 		time.Sleep(time.Second * 10)
 
 		if resp, err := http.Get(cfg + "/api/instructions/transfer/check?id=" + from + "&op=" + op); err != nil {
-			log.Error(err)
+			_ = log.Error(err)
 		} else {
 			log.Info("transfer check result:" + resp.Status)
 
