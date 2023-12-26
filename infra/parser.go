@@ -3,6 +3,7 @@ package infra
 import (
 	"AirAccountSmsAdapter/conf"
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/totoval/framework/helpers/log"
 	"io"
@@ -48,7 +49,13 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 			return log.Error(err)
 		} else {
 			log.Info("bind:" + resp.Status)
-			go SendMessage(chip, from, "Congratulations! Your AirAccount Created!")
+			if resp.StatusCode == http.StatusOK {
+				go SendMessage(chip, from, "Congratulations! Your AirAccount Created!")
+			} else if resp.StatusCode == http.StatusNotAcceptable {
+				go SendMessage(chip, from, "Your AirAccount Already Exists!")
+			} else {
+				return log.Error(errors.New(resp.Status))
+			}
 		}
 	} else if strings.EqualFold(rawMsg, QueryBalance) {
 		if resp, err := http.Get(cfg + "/api/instructions/balance?id=" + from); err != nil {
@@ -57,7 +64,9 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 			log.Info("query balance:" + resp.Status)
 			if data, err := io.ReadAll(resp.Body); err == nil {
 				b := Qb{}
-				json.Unmarshal(data, &b)
+				if err := json.Unmarshal(data, &b); err != nil {
+					return err
+				}
 				go SendMessage(chip, from, fmt.Sprintf("Your balance is %s %s", b.Data.Balance, b.Data.Unit))
 			}
 		}
