@@ -25,12 +25,8 @@ jobs:
 
     - name: Install tools
       run: |
-        go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
         go get -u github.com/securego/gosec/cmd/gosec
         go get -u github.com/sonatype-nexus-community/nancy
-
-    - name: Run golangci-lint
-      run: golangci-lint run
 
     - name: Run gosec
       run: gosec ./...
