@@ -12,4 +12,6 @@ OK !
 
 # Auto-Update
 
-See cmd/bash.sh
+**Only works for raspberrypi**
+
+> See cmd/bash.sh
