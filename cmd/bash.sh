@@ -1,10 +1,9 @@
 #!/bin/bash
 
-local_dir=".."
 exec="smsadapter"
 
 echo "Starting"
-$local_dir/$exec
+nohup ./$exec &
 
 # 设置Git仓库URL和本地目录
 repo_url="https://github.com/AAStarCommunity/AirAccountSmsAdapter.git"
@@ -23,9 +22,9 @@ while true; do
 
         git pull origin "$branch"
 
-        CGO_ENABLED=1 GOARCH=arm go build -o $local_dir/$exec $local_dir/main.go
+        CGO_ENABLED=1 GOARCH=arm go build -o $exec main.go
 
-        $local_dir/$exec
+        nohup ./$exec &
     fi
     
     sleep 60
