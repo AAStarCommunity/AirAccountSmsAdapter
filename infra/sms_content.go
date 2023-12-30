@@ -14,12 +14,9 @@ func ParseSmsContent(msg []byte) (matched bool, sender string, content string, e
 	}
 	matched = false
 	msgStrArr := bytes.Split(msg, []byte("<br />"))
-	re, err := regexp.Compile(REGEXP_CMGR)
-	if err != nil {
-		return false, "", "", err
-	}
+	re := regexp.MustCompile(REGEXP_CMGR)
 
-	if m := re.FindStringSubmatch(string(msgStrArr[0][:])); m != nil && len(m) > 1 {
+	if m := re.FindStringSubmatch(string(msgStrArr[0][:])); len(m) > 1 {
 		sender = m[1]
 		content = string(msgStrArr[1][:])
 		matched = true

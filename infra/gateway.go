@@ -18,9 +18,7 @@ func New(chip *Sim800c) *Gateway {
 		chip: chip,
 	}
 }
-
 func (gw *Gateway) PollUnreadMessages() {
-
 	go func() {
 		for {
 			gw.chip.Read()
@@ -59,7 +57,6 @@ func (gw *Gateway) PollUnreadMessages() {
 }
 
 func (gw *Gateway) Listen() {
-
 	go func() {
 		for {
 			gw.chip.Read()
@@ -89,7 +86,6 @@ func (gw *Gateway) send(msg []byte) error {
 }
 
 func (gw *Gateway) parse(msg []byte) error {
-
 	if msg == nil {
 		return nil
 	}

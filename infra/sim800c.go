@@ -120,7 +120,7 @@ func (s *Sim800c) Read() {
 			for _, msg := range msgArr {
 				str := string(msg)
 				matches := re.FindStringSubmatch(str)
-				if matches != nil && len(matches) > 2 {
+				if len(matches) > 2 {
 					from := matches[2]
 					text := msgArr[line]
 					msg = []byte(fmt.Sprintf("%s<br />%s", from, text))
