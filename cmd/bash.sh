@@ -2,14 +2,11 @@
 
 # 设置Git仓库URL和本地目录
 repo_url="https://github.com/AAStarCommunity/AirAccountSmsAdapter.git"
-local_dir="/src"
+local_dir=".."
 
 # 设置主分支名称
 branch="main"
 exec="smsadapter"
-
-# 进入本地目录
-cd "$local_dir"
 
 while true; do
     git fetch origin "$branch"
@@ -22,9 +19,9 @@ while true; do
 
         git pull origin "$branch"
 
-        CGO_ENABLED=1 GOARCH=arm go build -o $exec main.go
+        CGO_ENABLED=1 GOARCH=arm go build -o $local_dir/$exec $local_dir/main.go
 
-        ./$exec
+        $local_dir/$exec
     fi
     
     sleep 60
