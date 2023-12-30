@@ -2,7 +2,9 @@
 
 exec="smsadapter"
 
-echo "Starting"
+echo "Killing and Starting"
+
+pkill $exec
 nohup ./$exec &
 
 # 设置Git仓库URL和本地目录
@@ -16,16 +18,20 @@ while true; do
     
     if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/$branch)" ]; then
 
-        pkill $exec
-
-        echo "Updating and restarting the program..."
-
+        echo "Founding update, waiting to upgrade..."
         git pull origin "$branch"
 
+        
+        echo "Stoping..."
+        pkill $exec
+        
+        echo "Updating"
         CGO_ENABLED=1 GOARCH=arm go build -o $exec main.go
 
         nohup ./$exec &
+        
+        echo "Updated"
     fi
     
-    sleep 60
+    sleep 5
 done
