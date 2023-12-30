@@ -9,3 +9,7 @@ Basic instructions:
 3. Get response from the Gateway and send back to the sender.
 
 OK !
+
+# Auto-Update
+
+See cmd/bash.sh
