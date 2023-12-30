@@ -3,7 +3,6 @@ package infra
 import (
 	"AirAccountSmsAdapter/loglite"
 	"bytes"
-	"errors"
 	"fmt"
 	"github.com/totoval/framework/helpers/log"
 	"github.com/totoval/framework/helpers/toto"
@@ -36,7 +35,7 @@ func (gw *Gateway) PollUnreadMessages() {
 			case b := <-gw.chip.Bytes():
 				if delSms < gw.chip.SmsThreshold || delSms < 50 {
 					delSms = 0
-					gw.chip.Write([]byte("AT+CMGD=1,2\r\n"))
+					_ = gw.chip.Write([]byte("AT+CMGD=1,2\r\n"))
 				}
 				delSms++
 				recv := string(b[:])
@@ -54,7 +53,7 @@ func (gw *Gateway) PollUnreadMessages() {
 	}()
 
 	for {
-		gw.chip.Write([]byte("AT+CMGL=\"REC UNREAD\"\r\n"))
+		_ = gw.chip.Write([]byte("AT+CMGL=\"REC UNREAD\"\r\n"))
 		time.Sleep(5 * time.Second)
 	}
 }
@@ -119,5 +118,5 @@ func (gw *Gateway) parse(msg []byte) error {
 		return nil
 	}
 
-	return errors.New(fmt.Sprintf("Not a normal message: %s", string(msg[:]))) // not a valid
+	return fmt.Errorf("not a normal message: %s", string(msg[:])) // not a valid
 }
