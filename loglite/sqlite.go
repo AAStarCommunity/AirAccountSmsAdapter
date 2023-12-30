@@ -13,7 +13,9 @@ const DB_FILE = "log.db"
 func LogInfo(info string, msg *string) {
 	log.Info(info, toto.V{"data": *msg})
 	db, err := sql.Open("sqlite3", DB_FILE)
-	defer db.Close()
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
 
 	if err != nil {
 		log.Fatal(err)
@@ -31,7 +33,9 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
 
 	// Create a table
 	createTableSQL := `

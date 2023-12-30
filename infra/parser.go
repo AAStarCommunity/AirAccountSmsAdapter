@@ -50,9 +50,9 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 		} else {
 			log.Info("bind:" + resp.Status)
 			if resp.StatusCode == http.StatusOK {
-				go SendMessage(chip, from, "Congratulations! Your AirAccount Created!")
+				go func() { _ = SendMessage(chip, from, "Congratulations! Your AirAccount Created!") }()
 			} else if resp.StatusCode == http.StatusNotAcceptable {
-				go SendMessage(chip, from, "Your AirAccount Already Exists!")
+				go func() { _ = SendMessage(chip, from, "Your AirAccount Already Exists!") }()
 			} else {
 				return log.Error(errors.New(resp.Status))
 			}
@@ -67,13 +67,13 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 				if err := json.Unmarshal(data, &b); err != nil {
 					return err
 				}
-				go SendMessage(chip, from, fmt.Sprintf("Your balance is %s %s", b.Data.Balance, b.Data.Unit))
+				go func() { _ = SendMessage(chip, from, fmt.Sprintf("Your balance is %s %s", b.Data.Balance, b.Data.Unit)) }()
 			}
 		}
 	} else {
 		re := regexp.MustCompile(TransferTo)
 		rawMsg = strings.ToLower(rawMsg)
-		if matches := re.FindStringSubmatch(rawMsg); len(matches) == 3 {
+		if matches := re.FindStringSubmatch(rawMsg); matches != nil && len(matches) == 3 {
 			value := matches[1]
 			receiver := matches[2]
 			body, _ := json.Marshal(struct {
@@ -92,7 +92,7 @@ func InstructionOp(chip *Sim800c, from string, rawMsg string) error {
 				b := struct {
 					Op string `json:"op"`
 				}{}
-				go SendMessage(chip, from, "transfer accepted")
+				go func() { _ = SendMessage(chip, from, "transfer accepted") }()
 				go CheckTransfer(chip, from, b.Op)
 			}
 		} else {
@@ -115,7 +115,7 @@ func CheckTransfer(chip *Sim800c, from string, op string) {
 			log.Info("transfer check result:" + resp.Status)
 
 			if resp.StatusCode == 200 {
-				go SendMessage(chip, from, "transfer successful")
+				go func() { _ = SendMessage(chip, from, "transfer successful") }()
 				return
 			}
 		}
