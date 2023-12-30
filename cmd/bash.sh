@@ -1,12 +1,16 @@
 #!/bin/bash
 
+local_dir=".."
+exec="smsadapter"
+
+echo "Starting"
+$local_dir/$exec
+
 # 设置Git仓库URL和本地目录
 repo_url="https://github.com/AAStarCommunity/AirAccountSmsAdapter.git"
-local_dir=".."
 
 # 设置主分支名称
 branch="main"
-exec="smsadapter"
 
 while true; do
     git fetch origin "$branch"
