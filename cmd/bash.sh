@@ -5,7 +5,7 @@ exec="smsadapter"
 echo "Killing and Starting"
 
 pkill $exec
-nohup ./$exec &
+nohup ../$exec &
 
 # 设置Git仓库URL和本地目录
 repo_url="https://github.com/AAStarCommunity/AirAccountSmsAdapter.git"
@@ -28,7 +28,7 @@ while true; do
         echo "Updating"
         CGO_ENABLED=1 GOARCH=arm go build -o $exec main.go
 
-        nohup ./$exec &
+        nohup ../$exec &
         
         echo "Updated"
     fi
