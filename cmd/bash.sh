@@ -26,7 +26,7 @@ while true; do
         pkill $exec
         
         echo "Updating"
-        CGO_ENABLED=1 GOARCH=arm go build -o $exec main.go
+        go build -o $exec main.go
 
         nohup ../$exec &
         
