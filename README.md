@@ -1,5 +1,6 @@
 # AirAccountSmsAdapter
 
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 We will need many adapters, the first is SMS adapter using SIM800/SIM900a chips as adapter.
 To get SMS and parse into instructions, invoke the SDK of sim800 with instructions.
 
@@ -15,3 +16,7 @@ OK !
 **Only works for raspberrypi**
 
 > See cmd/bash.sh
+
+## License
+
+Licensed under the [Apache License, Version 2.0](https://opensource.org/licenses/Apache-2.0). See [LICENSE](./LICENSE) for details.
